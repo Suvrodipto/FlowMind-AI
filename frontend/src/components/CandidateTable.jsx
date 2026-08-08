@@ -45,7 +45,7 @@ function CandidateTable({
   const shortlistCandidate = async (candidate) => {
     try {
       await axios.put(
-        `http://127.0.0.1:8000/candidate/${candidate.id}/Shortlisted`
+        `http://https://flowmind-backend-04v7.onrender.com/candidate/${candidate.id}/Shortlisted`
       );
 
       updateCandidateStatus(candidate.id, "Shortlisted");
@@ -58,7 +58,7 @@ function CandidateTable({
   const rejectCandidate = async (candidate) => {
     try {
       await axios.put(
-        `http://127.0.0.1:8000/candidate/${candidate.id}/Rejected`
+        `http://https://flowmind-backend-04v7.onrender.com/candidate/${candidate.id}/Rejected`
       );
 
       updateCandidateStatus(candidate.id, "Rejected");
@@ -71,7 +71,7 @@ function CandidateTable({
   const removeCandidate = async (candidate) => {
     try {
       await axios.delete(
-        `http://127.0.0.1:8000/candidate/${candidate.id}`
+        `http://https://flowmind-backend-04v7.onrender.com/candidate/${candidate.id}`
       );
 
       deleteCandidate(candidate.id);

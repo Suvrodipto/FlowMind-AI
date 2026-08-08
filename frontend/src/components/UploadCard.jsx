@@ -21,7 +21,7 @@ function UploadCard({ loadCandidates }) {
       console.log("Uploading resume...");
 
       const res = await axios.post(
-        "http://127.0.0.1:8000/upload",
+        "http://https://flowmind-backend-04v7.onrender.com/upload",
         formData
       );
 

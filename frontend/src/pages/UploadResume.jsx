@@ -2,199 +2,343 @@ import { useState } from "react";
 import axios from "axios";
 
 
+const API = "https://flowmind-backend-04v7.onrender.com";
+
+
+
 export default function UploadResume(){
 
 
-    const [file,setFile] = useState(null);
+const [file,setFile] = useState(null);
 
-    const [message,setMessage] = useState("");
+const [loading,setLoading] = useState(false);
 
-    const [loading,setLoading] = useState(false);
+const [message,setMessage] = useState("");
 
+const [error,setError] = useState("");
 
 
 
-    const uploadResume = async()=>{
 
 
-        if(!file){
 
-            setMessage("Please select a resume");
 
-            return;
+const handleUpload = async(e)=>{
 
-        }
 
+e.preventDefault();
 
 
-        const formData = new FormData();
+setMessage("");
 
+setError("");
 
-        // IMPORTANT: backend expects "file"
 
-        formData.append(
-            "file",
-            file
-        );
 
+if(!file){
 
+    setError("Please select a resume file");
 
-        try{
+    return;
 
+}
 
-            setLoading(true);
 
 
+try{
 
-            const response = await axios.post(
 
-                "http://127.0.0.1:8000/upload",
+setLoading(true);
 
-                formData
 
-            );
 
+const formData = new FormData();
 
 
-            console.log(response.data);
+formData.append(
 
+    "file",
 
+    file
 
-            setMessage(
+);
 
-                "Resume uploaded successfully"
 
-            );
 
 
 
-        }
+const response = await axios.post(
 
 
-        catch(error){
+`${API}/upload`,
 
 
-            console.log(
+formData,
 
-                error.response?.data
 
-            );
+{
 
+headers:{
 
-            setMessage(
+"Content-Type":"multipart/form-data"
 
-                "Resume upload failed"
+}
 
-            );
+}
 
 
-        }
+);
 
 
-        finally{
 
-            setLoading(false);
 
-        }
 
+console.log(
 
-    };
+"Upload Success:",
 
+response.data
 
+);
 
 
 
 
 
-    return(
+setMessage(
 
+"Resume uploaded successfully!"
 
-        <div className="min-h-screen bg-slate-950 p-8 text-white">
+);
 
 
-            <h1 className="text-3xl font-bold mb-8">
 
-                📄 Upload Resume
 
-            </h1>
+}
 
 
+catch(error){
 
 
-            <div className="bg-slate-900 p-8 rounded-xl max-w-xl">
 
+console.log(
 
-                <h2 className="text-xl mb-5">
+"Upload Error:",
 
-                    Upload Candidate Resume
+error.response?.data
 
-                </h2>
+);
 
 
 
-                <input
 
-                    type="file"
+if(error.response?.data?.detail){
 
-                    accept=".pdf,.docx,.txt"
 
-                    onChange={(e)=>
-                        setFile(
-                            e.target.files[0]
-                        )
-                    }
+setError(
 
-                    className="mb-5"
+typeof error.response.data.detail === "string"
 
-                />
+?
 
+error.response.data.detail
 
+:
 
+JSON.stringify(error.response.data.detail)
 
-                <button
+);
 
-                    onClick={uploadResume}
 
-                    disabled={loading}
+}
 
-                    className="bg-cyan-600 px-8 py-3 rounded-lg"
+else{
 
-                >
 
-                    {
-                        loading
-                        ?
-                        "Uploading..."
-                        :
-                        "Upload Resume"
-                    }
+setError(
 
+"Resume upload failed"
 
-                </button>
+);
 
 
+}
 
 
-                {
-                    message &&
 
-                    <p className="mt-5">
 
-                        {message}
+}
 
-                    </p>
 
-                }
 
+finally{
 
 
-            </div>
+setLoading(false);
 
 
-        </div>
+}
 
 
-    );
+
+};
+
+
+
+
+
+
+
+
+
+return(
+
+
+<div className="min-h-screen bg-slate-950 text-white p-8">
+
+
+
+
+
+<div className="max-w-xl mx-auto bg-slate-900 p-8 rounded-2xl shadow-xl">
+
+
+
+
+
+<h1 className="text-3xl font-bold mb-6">
+
+📄 Upload Resume
+
+</h1>
+
+
+
+
+
+
+<form onSubmit={handleUpload}>
+
+
+
+<input
+
+
+type="file"
+
+
+accept=".pdf,.doc,.docx"
+
+
+onChange={(e)=>
+
+setFile(e.target.files[0])
+
+}
+
+
+className="w-full bg-slate-800 p-3 rounded-lg"
+
+
+
+/>
+
+
+
+
+
+
+
+<button
+
+
+type="submit"
+
+
+disabled={loading}
+
+
+className="mt-6 w-full bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-600 py-3 rounded-xl font-bold"
+
+
+>
+
+
+{
+
+loading
+
+?
+
+"Uploading..."
+
+:
+
+"Upload Resume"
+
+}
+
+
+</button>
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+{
+
+message &&
+
+<div className="mt-5 bg-green-600 p-3 rounded-lg">
+
+{message}
+
+</div>
+
+}
+
+
+
+
+
+
+
+{
+
+error &&
+
+<div className="mt-5 bg-red-600 p-3 rounded-lg">
+
+{error}
+
+</div>
+
+}
+
+
+
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+);
+
 
 
 }

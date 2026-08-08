@@ -16,7 +16,7 @@ try{
 
 const response = await axios.get(
 
-`http://127.0.0.1:8000/resume/${candidate.id}`,
+`http://https://flowmind-backend-04v7.onrender.com/resume/${candidate.id}`,
 
 {
 responseType:"blob"

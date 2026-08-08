@@ -25,7 +25,7 @@ function JobDescriptionUpload({ setJobDescription }) {
       console.log("Sending request...");
 
       const res = await axios.post(
-        "http://127.0.0.1:8000/upload-job-description",
+        ""http://https://flowmind-backend-04v7.onrender.com/job/upload"",
         formData,
         {
           headers: {
