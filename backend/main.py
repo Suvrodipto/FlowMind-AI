@@ -18,6 +18,77 @@ from api.job_upload import router as job_upload_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
+# ==============================
+# CREATE DEMO USER
+# ==============================
+
+from database import SessionLocal
+from models import User
+from auth.password_handler import hash_password
+
+
+def create_demo_user():
+
+    db = SessionLocal()
+
+    try:
+
+        existing_user = (
+            db.query(User)
+            .filter(
+                User.email == "demo@flowmind.ai"
+            )
+            .first()
+        )
+
+
+        if not existing_user:
+
+            demo_user = User(
+
+                username="demo",
+
+                email="demo@flowmind.ai",
+
+                hashed_password=hash_password(
+                    "Demo@123"
+                )
+
+            )
+
+
+            db.add(demo_user)
+
+            db.commit()
+
+
+            print(
+                "Demo user created successfully"
+            )
+
+
+        else:
+
+            print(
+                "Demo user already exists"
+            )
+
+
+    except Exception as e:
+
+        print(
+            "Demo user creation failed:",
+            e
+        )
+
+
+    finally:
+
+        db.close()
+
+
+
+create_demo_user()
 
 
 
