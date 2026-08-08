@@ -21,6 +21,34 @@ Instead of manually reviewing hundreds of resumes, FlowMind AI analyzes candidat
 
 ---
 
+
+
+# 🚀 Live Demo
+
+🌐 **Application URL**
+
+https://flow-mind-ai-dun.vercel.app
+
+
+## 🔑 Demo Login Credentials
+
+Use the following credentials to explore the application:
+
+
+**Email:**
+
+demo@flowmind.ai
+
+
+**Password:**
+
+Demo@123
+
+
+
+
+
+
 # 🎯 Problem Statement
 
 Recruiters face several challenges:
@@ -375,24 +403,30 @@ http://localhost:5173
 
 ---
 
-# 🌐 Live Deployment
+# 🌍 Deployment
 
 
-Frontend:
+## Frontend
 
-```
+Vercel:
+
 https://flow-mind-ai-dun.vercel.app
-```
 
 
-Backend:
+## Backend API
 
-```
+Render:
+
 https://flowmind-backend-04v7.onrender.com
-```
 
 
----
+## API Documentation
+
+Swagger:
+
+https://flowmind-backend-04v7.onrender.com/docs
+
+
 
 # 🔑 Demo Credentials
 
@@ -493,6 +527,9 @@ If you like this project, consider giving it a ⭐ on GitHub.
 
 
 <img width="917" height="449" alt="image" src="https://github.com/user-attachments/assets/e4c184c9-e442-40fd-8615-4b792890e536" />
+
+
+
 
 
 
