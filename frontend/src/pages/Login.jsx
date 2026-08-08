@@ -24,11 +24,13 @@ function Login() {
 
 
 
-
   const handleLogin = async (e) => {
 
 
     e.preventDefault();
+
+
+    console.log("LOGIN CLICKED");
 
 
     setError("");
@@ -39,7 +41,6 @@ function Login() {
 
 
     try {
-
 
 
       const response = await axios.post(
@@ -63,10 +64,10 @@ function Login() {
         {
 
 
-          headers:{
+          headers: {
 
 
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
 
 
           }
@@ -76,7 +77,6 @@ function Login() {
 
 
       );
-
 
 
 
@@ -94,20 +94,13 @@ function Login() {
 
 
 
-
-
       localStorage.setItem(
-
 
         "token",
 
-
         response.data.access_token
 
-
       );
-
-
 
 
 
@@ -115,17 +108,11 @@ function Login() {
 
       localStorage.setItem(
 
-
         "user",
-
 
         JSON.stringify(response.data.user)
 
-
       );
-
-
-
 
 
 
@@ -135,54 +122,43 @@ function Login() {
 
 
 
-
     }
 
 
-
-    catch(error){
-
+    catch (err) {
 
 
       console.log(
 
         "LOGIN ERROR:",
 
-        error.response?.data
+        err.response?.data
 
       );
 
 
 
-
-      let errorMessage = "Invalid email or password";
-
+      let msg = "Invalid email or password";
 
 
 
-      if(error.response?.data?.detail){
+      if(err.response?.data?.detail){
 
 
-
-        if(
-
-          typeof error.response.data.detail === "string"
-
-        ){
+        if(typeof err.response.data.detail === "string"){
 
 
-          errorMessage = error.response.data.detail;
+          msg = err.response.data.detail;
 
 
         }
 
-
         else{
 
 
-          errorMessage = JSON.stringify(
+          msg = JSON.stringify(
 
-            error.response.data.detail
+            err.response.data.detail
 
           );
 
@@ -190,19 +166,15 @@ function Login() {
         }
 
 
-
       }
 
 
 
-      setError(errorMessage);
+      setError(msg);
 
 
 
     }
-
-
-
 
 
     finally{
@@ -212,7 +184,6 @@ function Login() {
 
 
     }
-
 
 
   };
@@ -228,15 +199,10 @@ function Login() {
   return (
 
 
-
     <div className="min-h-screen bg-slate-950 flex items-center justify-center">
 
 
-
       <div className="bg-slate-800 p-8 rounded-2xl w-full max-w-md shadow-xl">
-
-
-
 
 
 
@@ -245,9 +211,6 @@ function Login() {
           🚀 FlowMind AI ATS
 
         </h1>
-
-
-
 
 
 
@@ -262,25 +225,15 @@ function Login() {
 
 
 
-
-        {
-
-          error &&
-
+        {error && (
 
           <div className="bg-red-600 text-white p-3 rounded-lg mb-5">
 
-
             {error}
-
 
           </div>
 
-
-        }
-
-
-
+        )}
 
 
 
@@ -291,16 +244,11 @@ function Login() {
 
 
 
-
-
-
           <label className="text-white">
 
             Email
 
           </label>
-
-
 
 
 
@@ -318,9 +266,7 @@ function Login() {
 
             onChange={(e)=>
 
-
               setEmail(e.target.value)
-
 
             }
 
@@ -338,17 +284,11 @@ function Login() {
 
 
 
-
-
-
           <label className="text-white">
 
             Password
 
           </label>
-
-
-
 
 
 
@@ -366,9 +306,7 @@ function Login() {
 
             onChange={(e)=>
 
-
               setPassword(e.target.value)
-
 
             }
 
@@ -380,9 +318,6 @@ function Login() {
 
 
           />
-
-
-
 
 
 
@@ -403,10 +338,7 @@ function Login() {
 
           >
 
-
-
             {
-
 
               loading
 
@@ -418,16 +350,10 @@ function Login() {
 
               "Login"
 
-
-
             }
 
 
-
           </button>
-
-
-
 
 
 
@@ -438,18 +364,10 @@ function Login() {
 
 
 
-
-
-
       </div>
 
 
-
-
-
     </div>
-
-
 
 
   );
