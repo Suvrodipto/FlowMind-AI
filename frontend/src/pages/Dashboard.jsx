@@ -37,9 +37,31 @@ const loadData = async()=>{
 try{
 
 
+const token = localStorage.getItem("token");
+
+
+
+const config = {
+
+headers:{
+
+Authorization:`Bearer ${token}`
+
+}
+
+};
+
+
+
+
+
+
+
 const candidateResponse = await axios.get(
 
-`${API}/candidates`
+`${API}/candidates`,
+
+config
 
 );
 
@@ -50,9 +72,13 @@ setCandidates(candidateResponse.data);
 
 
 
+
+
 const jobResponse = await axios.get(
 
-`${API}/job/list`
+`${API}/job/list`,
+
+config
 
 );
 
@@ -65,9 +91,18 @@ setJobs(jobResponse.data);
 
 catch(error){
 
-console.log(error);
+
+console.log(
+
+"Dashboard Error:",
+
+error.response?.data || error.message
+
+);
+
 
 }
+
 
 
 };
@@ -92,7 +127,7 @@ Math.round(
 
 candidates.reduce(
 
-(sum,c)=>sum+(c.ats_score||0),
+(sum,c)=>sum+(c.ats_score || 0),
 
 0
 
@@ -120,7 +155,7 @@ Math.round(
 
 candidates.reduce(
 
-(sum,c)=>sum+(c.match_score||0),
+(sum,c)=>sum+(c.match_score || 0),
 
 0
 
@@ -178,18 +213,15 @@ value:totalCandidates-shortlisted
 
 
 
-
-
-
 const rankedCandidates=[...candidates].sort(
 
 (a,b)=>
 
-(b.ats_score||0)
+(b.ats_score || 0)
 
 -
 
-(a.ats_score||0)
+(a.ats_score || 0)
 
 );
 
@@ -242,6 +274,7 @@ value={totalCandidates}
 />
 
 
+
 <StatCard
 
 title="Average ATS Score"
@@ -249,6 +282,7 @@ title="Average ATS Score"
 value={`${averageATS}%`}
 
 />
+
 
 
 <StatCard
@@ -260,6 +294,7 @@ value={`${averageMatch}%`}
 />
 
 
+
 <StatCard
 
 title="Shortlisted"
@@ -267,6 +302,7 @@ title="Shortlisted"
 value={shortlisted}
 
 />
+
 
 
 </div>
@@ -287,7 +323,10 @@ value={shortlisted}
 
 
 
+
+
 <div className="bg-slate-900 p-6 rounded-2xl">
+
 
 
 <h2 className="text-2xl font-bold mb-5">
@@ -295,6 +334,8 @@ value={shortlisted}
 📊 Hiring Analytics
 
 </h2>
+
+
 
 
 
@@ -330,10 +371,12 @@ chartData.map(
 }
 
 
+
 </Pie>
 
 
 <Tooltip/>
+
 
 <Legend/>
 
@@ -343,6 +386,9 @@ chartData.map(
 
 
 </div>
+
+
+
 
 
 
@@ -373,7 +419,6 @@ chartData.map(
 
 
 </div>
-
 
 
 
@@ -426,6 +471,7 @@ Upload Resume
 
 
 </Link>
+
 
 
 
@@ -531,10 +577,6 @@ AI ranked candidates using ATS score and matching
 
 
 
-{/* TOP 3 */}
-
-
-
 <div className="grid lg:grid-cols-3 gap-6 mb-8">
 
 
@@ -548,7 +590,6 @@ rankedCandidates
 .map((candidate,index)=>(
 
 
-
 <div
 
 key={candidate.id}
@@ -556,7 +597,6 @@ key={candidate.id}
 className={`p-6 rounded-2xl border
 
 ${
-
 index===0
 
 ?
@@ -582,10 +622,6 @@ index===1
 
 >
 
-
-
-
-<div className="flex justify-between">
 
 
 <div className="text-4xl">
@@ -616,16 +652,12 @@ index===1
 </div>
 
 
-<span className="bg-slate-800 px-3 py-1 rounded-full">
+
+<span>
 
 Rank #{index+1}
 
 </span>
-
-
-</div>
-
-
 
 
 
@@ -638,13 +670,12 @@ Rank #{index+1}
 </h3>
 
 
+
 <p className="text-gray-400">
 
 {candidate.email || "No email"}
 
 </p>
-
-
 
 
 
@@ -666,6 +697,7 @@ color="green"
 
 
 
+
 <ScoreBar
 
 title="Match Score"
@@ -681,9 +713,7 @@ color="cyan"
 
 
 
-
 <div className="mt-5">
-
 
 <span className="bg-green-600/20 text-green-400 px-4 py-2 rounded-full">
 
@@ -691,8 +721,8 @@ color="cyan"
 
 </span>
 
-
 </div>
+
 
 
 
@@ -739,7 +769,6 @@ key={candidate.id}
 
 className="bg-slate-800 p-5 rounded-xl flex justify-between"
 
-
 >
 
 
@@ -768,6 +797,7 @@ className="bg-slate-800 p-5 rounded-xl flex justify-between"
 <div className="flex gap-8">
 
 
+
 <div>
 
 <p className="text-gray-400">
@@ -782,8 +812,8 @@ ATS
 
 </p>
 
-
 </div>
+
 
 
 
@@ -802,12 +832,12 @@ Match
 
 </p>
 
-
 </div>
 
 
 
 </div>
+
 
 
 </div>
@@ -826,9 +856,10 @@ Match
 
 
 
+
+
+
 </div>
-
-
 
 
 
@@ -857,6 +888,7 @@ function StatCard({title,value}){
 
 return(
 
+
 <div className="bg-slate-900 p-6 rounded-2xl">
 
 
@@ -876,7 +908,9 @@ return(
 
 </div>
 
+
 );
+
 
 }
 
@@ -892,6 +926,7 @@ function ScoreBar({title,value,color}){
 
 
 return(
+
 
 <div className="mt-5">
 
@@ -918,6 +953,7 @@ return(
 
 
 
+
 <div className="bg-slate-700 h-3 rounded-full">
 
 
@@ -935,6 +971,7 @@ color==="green"
 "bg-cyan-500"
 
 }`}
+
 
 style={{
 
