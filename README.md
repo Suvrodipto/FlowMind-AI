@@ -469,7 +469,6 @@ test
 
 🚀 Multi-user Recruiter Dashboard
 
-🚀 Cloud Database Migration
 
 🚀 Real-time Candidate Collaboration
 
